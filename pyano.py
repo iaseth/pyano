@@ -1,10 +1,13 @@
 import random
+import tkinter as tk
 
 import numpy as np
 import sounddevice as sd
 
+
 SAMPLE_RATE = 44100
 DURATION = 0.40
+
 
 def synth(frequency, duration=DURATION, sampling_rate=SAMPLE_RATE):
     frames = int(duration * sampling_rate)
@@ -32,9 +35,18 @@ def get_piano_sounds():
     return sounds
 
 
+def play_random_sounds():
+    for i in range(50):
+        key = random.randint(48, 60)
+        sound = piano_sounds[key]
+        print(f"[{i+1}] Playing #{key} at {sound['frequency']:.2f}Hz")
+        sd.play(sound["sound"], SAMPLE_RATE, blocking=True)
+
+
+def piano_gui():
+    window = tk.Tk()
+    window.mainloop()
+
+
 piano_sounds = get_piano_sounds()
-for i in range(50):
-    key = random.randint(48, 60)
-    sound = piano_sounds[key]
-    print(f"[{i+1}] Playing #{key} at {sound['frequency']:.2f}Hz")
-    sd.play(sound["sound"], SAMPLE_RATE, blocking=True)
+piano_gui()
